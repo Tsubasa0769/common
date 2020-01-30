@@ -43,3 +43,8 @@ function http_request($url,$ret='',$file=''){
 	curl_close($ch);
 	return $data;
 }
+
+// 获取当前的url地址
+function getCurrentUrl(){
+	return $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+}

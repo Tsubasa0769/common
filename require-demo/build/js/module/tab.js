@@ -1,0 +1,1 @@
+define(["jquery"],function(n){return{init:function(t){var i=this;console.log(t),n(function(){n("#test").click(function(){i.haha(n(this).data("id"))})})},haha:function(n){alert(n)}}});

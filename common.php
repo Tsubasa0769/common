@@ -1,4 +1,5 @@
 <?php
+asdf
 function http_request($url,$ret='',$file=''){
 	if (!empty($file)) {  // 有文件上传
 		# php5.5之前 '@'.$file;就可以进地文件上传
@@ -28,7 +29,7 @@ function http_request($url,$ret='',$file=''){
 	if($ret){ # 如果 $ret不为假则是post提交
 		# 开启post请求
 		curl_setopt($ch,CURLOPT_POST,1);
-		# post请求的数据 
+		# post请求的数据
 		curl_setopt($ch,CURLOPT_POSTFIELDS,$ret);
 	}
 	// 发起请求

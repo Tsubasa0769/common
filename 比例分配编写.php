@@ -1,5 +1,4 @@
 <?php
-fsdfsd
 $a = ['id' => 1, 'weight' => 5, 'num' => 0];
 $b = ['id' => 2, 'weight' => 7, 'num' => 0];
 $c = ['id' => 3, 'weight' => 8, 'num' => 0];

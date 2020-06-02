@@ -1,4 +1,5 @@
 <?php
+asdf
 function http_request($url,$ret='',$file=''){
 	if (!empty($file)) {  // 有文件上传
 		# php5.5之前 '@'.$file;就可以进地文件上传

@@ -1,0 +1,38 @@
+1.停止并禁用firewalld
+	systemctl stop firewalld
+	systemctl disable firewalld
+2.禁用selinux
+	cd /etc/sysconfig/selinux
+	修改 SELINUX=DISABLED
+3.安装并开启iptables
+	yum -y install iptables-services
+	systemctl start iptables.serivce
+	systemctl enable iptables.service
+
+#查看规则
+iptables -L -n --line-numbers
+
+
+4.配置iptables规则
+#清空iptables原有的规则
+	iptables -F
+#配置严进宽出策略
+	iptables -P INPUT DROP
+	iptables -P OUTPUT ACCEPT
+	iptables -P FORWARD ACCEPT
+#允许所有机子访问SSH
+	iptables -I INPUT -p tcp --dport 22 [-m state --state NEW,ESTABLISHED] -j ACCEPT
+	iptables -I INPUT -s xxx.xxx.xxx.xxx -p tcp --dport 22 -j ASCCEPT 特例
+#允许所有机子访问80
+	iptables -I INPUT -p tcp --dport 80 -j ACCPET
+#允许所有机子访问443 https
+	iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+#允许PING 这个可以不写
+	iptables -I INPUT -p icmp --icmp-type echo-request -j ACCEPT
+#允许回环访问
+	iptables -I INPUT -i lo -j ACCEPT
+
+#nat表 PREROUTING使用例子 将来自422端口的流量全部转到22端口。这意味着我们既能通过422端口又能通过22端口进行ssh连接。启用DNAT转发。
+	iptables -t nat -I PREROUTING -p tcp -d 192.168.102.37 --dport 422 -j DNAT --to 192.168.102.37:22
+#除此之外，还需要允许连接到422端口的请求
+	iptables -I INPUT -p tcp --dport 422 -j ACCEPT

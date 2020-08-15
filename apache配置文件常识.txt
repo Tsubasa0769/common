@@ -43,3 +43,10 @@
 	访问 192.168.51.76/dvd
 3.apache目录访问控制
 4.apache虚拟主机
+	设置httpd.conf
+	Include conf/extra/httpd-vhosts.conf
+	<VirtualHost *:80>
+	    DocumentRoot "/usr/local/httpd/htdocs/test"
+	    ServerName www.abc.test
+	    CustomLog "logs/www.abc.test-access_log" common
+	</VirtualHost>

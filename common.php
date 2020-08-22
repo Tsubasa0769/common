@@ -73,3 +73,25 @@ function treeDiGui($arr, $pKey, $key, $pid=0, $level=0){
     }
     return $tmp;
 }
+//检验手机号
+function check_mobile($mobile){
+	if(preg_match("/^1[3456789]{1}\d{9}$/",$mobile)){
+	    return true;
+	}else{
+	    return false;
+	}
+}
+//隐藏字符串
+function changestr($str) {
+	if(mb_strlen($str) == 0) return '';
+	if(check_mobile($str)){
+		return mb_substr($str, 0, 3).'***'.mb_substr($str, $length - 4);
+	}else{
+		$length = mb_strlen($str);
+		if($length <= 2){
+			return mb_substr($str, 0, 1).'***';
+		}else{
+			return mb_substr($str, 0, 1).'***'.mb_substr($str, $length - 1);
+		}
+	}
+}

@@ -32,7 +32,23 @@ iptables -L -n --line-numbers
 #允许回环访问
 	iptables -I INPUT -i lo -j ACCEPT
 
+#FORWARD转发
+	iptables -I FORWARD -s 192.168.77.2 -p tcp --dport 80 -j ACCEPT
+	iptables -I FORWARD -d 192.168.77.2 -p tcp --sport 80 -j ACCEPT
+	iptables -I FORWARD -s 192.168.77.2 -p tcp --dport 22 -j ACCEPT
+	iptables -I FORWARD -d 192.168.77.2 -p tcp --sport 22 -j ACCEPT
+
+
+
+
 #nat表 PREROUTING使用例子 将来自422端口的流量全部转到22端口。这意味着我们既能通过422端口又能通过22端口进行ssh连接。启用DNAT转发。
 	iptables -t nat -I PREROUTING -p tcp -d 192.168.102.37 --dport 422 -j DNAT --to 192.168.102.37:22
 #除此之外，还需要允许连接到422端口的请求
 	iptables -I INPUT -p tcp --dport 422 -j ACCEPT
+#使用nat PREROUTING，实现外网 访问 我们公网地址后，再转发到我们本机地址 相当内网穿透
+	http://192.168.88.1
+	iptables -t nat -I PREROUTING -i ens32 -s 192.168.88.2 -j DNAT --to-destination 192.168.77.2
+#使用nat POSTROUTING，实现所有局域网的电脑通过访问网关，路由器将我们的源转成公网地址再去进行请求
+	http://192.168.77.2
+	iptables -t nat -I POSTROUTING -o ens34 -s 192.168.88.2 -j SNAT --to-source 192.168.77.1
+	iptables -t nat -I POSTROUTING -o ens32 -s 192.168.88.2 -j MASQUERADE

@@ -1,0 +1,52 @@
+1.apache配置文件
+	1.apache主目录
+		ServerRoot "/usr/local/httpd"
+	2.监听端口
+		Listen 80
+	3.加载动态模块
+		LoadModule php7_module        modules/libphp7.so
+	4.决定了apache的进程执行者
+		User daemon
+		Group daemon
+	5.网站根目录
+		DocumentRoot "/usr/local/httpd/htdocs"
+	6.网站目录的服务权限
+		<Directory "/usr/local/httpd/htdocs">
+		    Options Indexes FollowSymLinks
+		    AllowOverride None
+		    Order allow,deny
+		    Allow from all
+		    Require all granted
+		</Directory>	
+	7.修改默认首页
+		DirectoryIndex index.php index.html
+	8.错误日志
+		ErrorLog "logs/error_log"
+	9.访问日志 （无论成功还是失败）
+		CustomLog "logs/access_log" common
+	10.用apache去执行cgi脚本 cgi（通用网关接口）
+		ScriptAlias /cgi-bin/ "/usr/local/httpd/cgi-bin/"
+	11.识别php文件
+	    AddType application/x-httpd-php .php
+    	AddType application/x-httpd-php-source .phps 
+    12.配置虚拟主机
+    	Include conf/extra/httpd-vhosts.conf
+2.apache虚拟目录
+	Alias /dvd "/media/CentOS"
+	<Directory "/meida/CentOS">
+	    Options Indexes FollowSymLinks
+	    AllowOverride None
+	    Order allow,deny
+	    Allow from all
+	    Require all granted		
+	</Directory>
+	访问 192.168.51.76/dvd
+3.apache目录访问控制
+4.apache虚拟主机
+	设置httpd.conf
+	Include conf/extra/httpd-vhosts.conf
+	<VirtualHost *:80>
+	    DocumentRoot "/usr/local/httpd/htdocs/test"
+	    ServerName www.abc.test
+	    CustomLog "logs/www.abc.test-access_log" common
+	</VirtualHost>

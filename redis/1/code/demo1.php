@@ -7,6 +7,12 @@ $redis->connect('192.168.1.69');
 $redis->auth('beijing');
 //如果redis服务器设置了密码，则使用如下代码验证
 //$redis->auth('密码');
+//执行原生的redis指令
+$redis->rawCommand('set', 'name', 'FeeL', 'EX', 5, 'NX');
+
+
+
+
 //字符串类型操作
 $redis->set('username','libai');
 $redis->set('age',12);
